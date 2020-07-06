@@ -12,29 +12,9 @@ import {
 } from 'react-native';
 import ToDo from './ToDo';
 import 'react-native-get-random-values';
-import { v1 as uuidv1 } from 'uuid';
+import uuid from "react-native-uuid";
 
 const { width, height } = Dimensions.get("window");
-const seed = () => {
-  const one = Math.floor((Math.random() * 100) / 3.92);
-  const two = Math.floor((Math.random() * 100) / 3.92);
-  const three = Math.floor((Math.random() * 100) / 3.92);
-  const four = Math.floor((Math.random() * 100) / 3.92);
-  const five = Math.floor((Math.random() * 100) / 3.92);
-  const six = Math.floor((Math.random() * 100) / 3.92);
-  const seven = Math.floor((Math.random() * 100) / 3.92);
-  const eight = Math.floor((Math.random() * 100) / 3.92);
-  const nine = Math.floor((Math.random() * 100) / 3.92);
-  const ten = Math.floor((Math.random() * 100) / 3.92);
-  const eleven = Math.floor((Math.random() * 100) / 3.92);
-  const twelve = Math.floor((Math.random() * 100) / 3.92);
-  const thirteen = Math.floor((Math.random() * 100) / 3.92);
-  const fourteen = Math.floor((Math.random() * 100) / 3.92);
-  const fifteen = Math.floor((Math.random() * 100) / 3.92);
-  const sixteen = Math.floor((Math.random() * 100) / 3.92);
-  return [    one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen
-  ];
-}
 export default class App extends React.Component{
   stat = {
     newToDo: "",
@@ -88,7 +68,7 @@ export default class App extends React.Component{
         newToDo: ""
       })
       this.setState(prevState => {
-        const ID = uuidv1({ random:seed()});
+        const ID = uuid.v1();
         const newToDoObject = {
           [ID] : {
             id : ID,
