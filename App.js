@@ -1,35 +1,67 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform } from 'react-native';
+import { 
+  StyleSheet, 
+  ScrollView, 
+  Text, 
+  View, 
+  StatusBar, 
+  TextInput, 
+  Dimensions, 
+  Platform 
+} from 'react-native';
+import ToDo from './ToDo';
 
 const { width, height } = Dimensions.get("window");
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content"/>
-      <Text style={styles.title}>Have To Do</Text>
-      <View style={styles.card}>
-        <TextInput style={styles.input} placeholder="New To Do"/>
+export default class App extends React.Component{
+  stat = {
+    newToDo: ""
+  }
+  render() {
+    const { newToDo } = this;
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content"/>
+        <Text style={styles.title}>Have To Do</Text>
+        <View style={styles.card}>
+          <TextInput 
+            style={styles.input} 
+            placeholder="New To Do" 
+            value={newToDo} 
+            onChangeText={this._controlNewToDo}
+            placeholderTextColor={"#999"}
+            returnKeyType={"done"}
+            autoCorrect={false}
+          />
+          <ScrollView contentContainerStyle={styles.toDos}>
+            <ToDo text={"I'm a potato!"}/>
+          </ScrollView>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+  _controlNewToDo = text => {
+    this.setState({
+      newToDo: text
+    })
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f23657',
-    alignItems: 'center',
+    backgroundColor: "#F23657",
+    alignItems: "center"
   },
   title: {
-    fontSize: 40,
-    color: "#fff",
+    color: "white",
+    fontSize: 30,
     marginTop: 50,
     fontWeight: "200",
-    marginTop: 30,
+    marginBottom: 30
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     flex: 1,
     width: width - 25,
     borderTopLeftRadius: 10,
@@ -42,12 +74,21 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         shadowOffset: {
           height: -1,
-          width: 0,
-        },
+          width: 0
+        }
       },
       android: {
-        elevation: 3,
+        elevation: 3
       }
     })
   },
+  input: {
+    padding: 20,
+    borderBottomColor: "#bbb",
+    borderBottomWidth: 1,
+    fontSize: 25
+  },
+  toDos: {
+    alignItems: "center"
+  }
 });
