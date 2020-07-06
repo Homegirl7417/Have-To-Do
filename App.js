@@ -11,7 +11,6 @@ import {
   Platform 
 } from 'react-native';
 import ToDo from './ToDo';
-import uuid from "react-native-uuid";
 
 const { width, height } = Dimensions.get("window");
 export default class App extends React.Component{
