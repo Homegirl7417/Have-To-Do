@@ -11,7 +11,6 @@ import {
   Platform 
 } from 'react-native';
 import ToDo from './ToDo';
-import 'react-native-get-random-values';
 import uuid from "react-native-uuid";
 
 const { width, height } = Dimensions.get("window");
