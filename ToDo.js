@@ -34,15 +34,15 @@ export default class ToDo extends React.Component {
                         isEditing ? (
                             <TextInput 
                                 style={[
-                                    styles.input, 
                                     styles.text, 
+                                    styles.input, 
                                     isCompleted ? styles.completedText: styles.uncompletedText
                                 ]}
                                 value={toDoValue}
                                 multiline={true}
                                 onChangeText={this._controllInput}
-                                returnKeyType={"done"}
-                                onBlur={this._finishEditing} // onBlur : 칸 밖을 클릭하면 함수 실행.
+                                returnKeyType={"done"} // 키보드 자판의 보통 '완료'버튼 있는 곳 글자
+                                onBlur={this._finishEditing} // onBlur : 칸 밖을 클릭하면 함수 실행(엘리먼트의 포커스가 해제되었을때 발생)
                             />
                         ) : (
                             <Text style={[
