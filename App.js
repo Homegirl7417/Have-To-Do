@@ -36,15 +36,17 @@ const seed = () => {
   ];
 }
 export default class App extends React.Component{
-  stat = {
+  state = {
     newToDo: "",
     loadedToDos: false,
+    toDos: {},
   }
-  componentDidMount() {
+  componentDidMount = () => {
     this._loadToDos();
-  }
+  };
   render() {
-    const { newToDo, loadedToDos } = this;
+    const { newToDo, loadedToDos, toDos } = this.state;
+    console.log('loadedToDos / toDos: ', loadedToDos , toDos);
     if (!loadedToDos) {
       //로딩 전
       return <AppLoading/>;
@@ -65,7 +67,7 @@ export default class App extends React.Component{
             onSubmitEditing={this._addToDo} // 키보드에서 '완료' 버튼 클릭하면 함수 실행
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo text={"I'm a potato!"}/>
+            {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo}/>)}
           </ScrollView>
         </View>
       </View>
@@ -76,17 +78,12 @@ export default class App extends React.Component{
       newToDo: text
     })
   }
-  _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    })
+  _loadToDos  = () => {
+    this.setState({ loadedToDos: true });
   }
   _addToDo = () => {
     const { newToDo } = this.state;
     if (newToDo !== "") {
-      this.setState({
-        newToDo: ""
-      })
       this.setState(prevState => {
         const ID = uuidv1({ random:seed()});
         const newToDoObject = {
