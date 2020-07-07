@@ -8,7 +8,8 @@ import {
   StatusBar, 
   TextInput, 
   Dimensions, 
-  Platform 
+  Platform, 
+  AsyncStorage
 } from 'react-native';
 import 'react-native-get-random-values'; 
 import { v1 as uuidv1 } from 'uuid';
@@ -111,6 +112,7 @@ export default class App extends React.Component{
             ...newToDoObject
           }
         }
+        this._saveToDos(newState.toDos);
         return { ...newState };
       });
     }
@@ -123,6 +125,7 @@ export default class App extends React.Component{
         ...prevState,
         ...toDos
       }
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -138,6 +141,7 @@ export default class App extends React.Component{
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -153,6 +157,7 @@ export default class App extends React.Component{
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -168,9 +173,14 @@ export default class App extends React.Component{
           }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });    
   };
+  _saveToDos = newToDos => {
+    console.log("newToDos: ", newToDos);
+    const saveToDos = AsyncStorage.setItem("ToDos", newToDos);
+  }
 }
 
 const styles = StyleSheet.create({
