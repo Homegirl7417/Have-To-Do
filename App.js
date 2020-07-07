@@ -69,9 +69,7 @@ export default class App extends React.Component{
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos)
-              .sort( (a,b) => 
-              a.createdAt - b.createdAt
-              )
+              .sort((a,b) =>  a.createdAt - b.createdAt)
               .map(toDo => (
               <ToDo 
                 key={toDo.id} 
