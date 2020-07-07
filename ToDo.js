@@ -1,26 +1,32 @@
 import React from 'react';
 import { 
     StyleSheet, 
-    ScrollView, 
     Text, 
     View, 
-    StatusBar, 
     TextInput, 
     Dimensions, 
-    Platform,
     TouchableOpacity
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 const { width, height } = Dimensions.get("window"); 
 export default class ToDo extends React.Component {
-    state = {
-        isEditing: false,
-        isCompleted: false,
-        toDoValue: "",
+    constructor(props){
+        super(props);
+        this.state = { isEditing: false, toDoValue: props.text };
+    }
+    static propTypes = {
+        text: PropTypes.string.isRequired,
+        isCompleted: PropTypes.bool.isRequired,
+        deleteToDo: PropTypes.func.isRequired,
+        id: PropTypes.string.isRequired,
+        uncompleteToDo: PropTypes.func.isRequired,
+        completeToDo: PropTypes.func.isRequired,
+        updateToDo: PropTypes.func.isRequired,
     }
     render(){
-        const { isCompleted, isEditing, toDoValue } = this.state;
-        const { text } = this.props;
+        const { isEditing, toDoValue } = this.state;
+        const { text, id, deleteToDo, isCompleted } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -35,7 +41,7 @@ export default class ToDo extends React.Component {
                             <TextInput 
                                 style={[
                                     styles.text, 
-                                    styles.input, 
+                                    styles.input,
                                     isCompleted ? styles.completedText: styles.uncompletedText
                                 ]}
                                 value={toDoValue}
@@ -69,7 +75,7 @@ export default class ToDo extends React.Component {
                                     <Text style={styles.actionText}>✏️</Text>
                                 </View>
                             </TouchableOpacity>                            
-                            <TouchableOpacity>
+                            <TouchableOpacity onPressOut={() => deleteToDo(id)}>
                                 <View style={styles.actionContainer}>
                                     <Text style={styles.actionText}>❌</Text>
                                 </View>
@@ -79,12 +85,14 @@ export default class ToDo extends React.Component {
             </View>
         );
     }
-    _toggleComplete = () => {
-        this.setState(prevState => {
-            return {
-                isCompleted: !prevState.isCompleted
-            }
-        })
+    _toggleComplete = e => {
+        e.stopPropagation();
+        const { id, isCompleted, uncompleteToDo, completeToDo } = this.props;
+        if (isCompleted) {
+            uncompleteToDo(id);
+        } else {
+            completeToDo(id);
+        }
     }
     _startEditing = () => {
         // 편집 시작
@@ -95,6 +103,9 @@ export default class ToDo extends React.Component {
         });
     }
     _finishEditing = () => {
+        const { toDoValue } = this.state;
+        const { id, updateToDo } = this.props;
+        updateToDo(id, toDoValue);
         this.setState({
             isEditing: false
         });
