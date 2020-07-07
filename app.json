@@ -2,6 +2,8 @@
   "expo": {
     "name": "Have-To-Do",
     "slug": "Have-To-Do",
+    "sdkVersion": "24.0.0",
+    "platforms": ["ios","android"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
