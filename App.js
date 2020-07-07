@@ -68,7 +68,9 @@ export default class App extends React.Component{
             onSubmitEditing={this._addToDo} // 키보드에서 '완료' 버튼 클릭하면 함수 실행
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map(toDo => (
+            {Object.values(toDos)
+              .reverse()
+              .map(toDo => (
               <ToDo 
                 key={toDo.id} 
                 deleteToDo={this._deleteToDo} 
@@ -88,8 +90,14 @@ export default class App extends React.Component{
       newToDo: text
     })
   }
-  _loadToDos  = () => {
-    this.setState({ loadedToDos: true });
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("ToDos");
+      const parsedToDos = JSON.parse(toDos);
+      this.setState({ loadedToDos: true, toDos: parsedToDos });
+    } catch(err) {
+      console.error(err);
+    }
   }
   _addToDo = () => {
     const { newToDo } = this.state;
@@ -178,8 +186,8 @@ export default class App extends React.Component{
     });    
   };
   _saveToDos = newToDos => {
-    console.log("newToDos: ", newToDos);
-    const saveToDos = AsyncStorage.setItem("ToDos", newToDos);
+    //AsyncStorage 는 string 저장용. JSON.stringify를 이용해 Object를 String으로 변환.    
+    const saveToDos = AsyncStorage.setItem("ToDos", JSON.stringify(newToDos));
   }
 }
 
