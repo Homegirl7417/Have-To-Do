@@ -66,6 +66,7 @@ export default class App extends React.Component{
             returnKeyType={"done"}
             autoCorrect={false}
             onSubmitEditing={this._addToDo} // 키보드에서 '완료' 버튼 클릭하면 함수 실행
+            underlineColorAndroid={"transparent"} // 안드로이드에서 보이는 및줄 색상 없애기
           />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos)
